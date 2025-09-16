@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Mark Absent{% endblock %}
+{% block content %}
+<h3>Mark Absents</h3>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-md-3">
+    <input type="date" name="date" class="form-control" value="{{ date }}">
+  </div>
+  <div class="col-md-4">
+    <select name="class_id" class="form-select" onchange="this.form.submit()">
+      <option value="">-- Select Class --</option>
+      {% for c in classes %}
+        <option value="{{ c._id }}" {% if selected_class and c._id == selected_class._id %}selected{% endif %}>{{ c.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-primary">Load</button>
+  </div>
+</form>
+
+{% if students %}
+<form method="post">
+  <input type="hidden" name="date" value="{{ date }}">
+  <input type="hidden" name="class_id" value="{{ selected_class._id }}">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Absent?</th>
+        <th>Student Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in students %}
+      <tr>
+        <td>
+          <input type="checkbox" name="students" value="{{ s._id }}">
+        </td>
+        <td>{{ s.name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="submit" class="btn btn-danger">Save Absents</button>
+</form>
+{% endif %}
+{% endblock %}

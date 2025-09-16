@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}Mark Attendance{% endblock %}
+{% block content %}
+<h4>Mark Attendance</h4>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-md-3">
+    <input type="date" name="date" class="form-control" value="{{ date }}">
+  </div>
+  <div class="col-md-4">
+    <select name="class_id" class="form-control">
+      {% for c in classes %}
+        <option value="{{ c._id }}" {% if selected_class and selected_class==c._id %}selected{% endif %}>
+          {{ c.name }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-primary">Load</button>
+  </div>
+</form>
+
+{% if students %}
+<form method="post" id="attendanceForm">
+  <input type="hidden" name="date" value="{{ date }}">
+  <input type="hidden" name="class_id" value="{{ selected_class }}">
+
+  <div class="mb-3 d-flex justify-content-between">
+    <div>
+      <button type="button" class="btn btn-sm btn-success" onclick="markAll(true)">Mark All Present</button>
+      <button type="button" class="btn btn-sm btn-danger" onclick="markAll(false)">Mark All Absent</button>
+    </div>
+    <div>
+      <input type="text" id="studentSearch" class="form-control form-control-sm" placeholder="Search student...">
+    </div>
+  </div>
+
+  <table class="table table-bordered align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Student</th>
+        <th>Roll</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="studentTable">
+      {% for s in students %}
+      <tr>
+        <td>
+          {{ s.name }}
+          <input type="hidden" name="student_ids" value="{{ s._id }}">
+        </td>
+        <td>{{ s.roll_no }}</td>
+        <td>
+          <div class="form-check form-switch">
+            <input type="checkbox" class="form-check-input present-toggle"
+                   name="present_{{ s._id }}"
+                   id="present_{{ s._id }}"
+                   {% if s._marked_present %}checked{% endif %}>
+            <label class="form-check-label" for="present_{{ s._id }}">
+              {% if s._marked_present %} Present {% else %} Absent {% endif %}
+            </label>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <button class="btn btn-success mt-3">Save Attendance</button>
+</form>
+{% endif %}
+
+<script>
+  // Toggle all students present/absent
+  function markAll(present) {
+    document.querySelectorAll('.present-toggle').forEach(cb => {
+      cb.checked = present;
+      cb.nextElementSibling.innerText = present ? "Present" : "Absent";
+    });
+  }
+
+  // Update label when toggled
+  document.querySelectorAll('.present-toggle').forEach(cb => {
+    cb.addEventListener('change', function() {
+      this.nextElementSibling.innerText = this.checked ? "Present" : "Absent";
+    });
+  });
+
+  // Search filter
+  document.getElementById('studentSearch').addEventListener('keyup', function() {
+    let filter = this.value.toLowerCase();
+    document.querySelectorAll('#studentTable tr').forEach(row => {
+      let text = row.innerText.toLowerCase();
+      row.style.display = text.includes(filter) ? "" : "none";
+    });
+  });
+</script>
+{% endblock %}

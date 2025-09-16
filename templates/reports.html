@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<h4>Reports</h4>
+<form method="get" class="row g-2 mb-3" action="{{ url_for('export_report') }}">
+  <div class="col-md-3"><input type="date" name="date_from" class="form-control"></div>
+  <div class="col-md-3"><input type="date" name="date_to" class="form-control"></div>
+  <div class="col-md-3">
+    <select name="class_id" class="form-control"><option value="">All Classes</option>{% for c in classes %}<option value="{{ c._id }}">{{ c.name }}</option>{% endfor %}</select>
+  </div>
+  <div class="col-md-3">
+    <select name="format" class="form-control"><option value="csv">CSV</option><option value="excel">Excel</option><option value="pdf">PDF</option></select>
+  </div>
+  <div class="col-md-2 mt-2"><button class="btn btn-primary">Export</button></div>
+</form>
+{% endblock %}

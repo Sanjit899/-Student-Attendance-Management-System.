@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Class Form{% endblock %}
+{% block content %}
+<div class="card p-3 mt-3">
+  <h4>{{ 'Edit' if cls else 'Add' }} Class</h4>
+  <form method="post">
+    <div class="mb-3"><label class="form-label">Name</label><input name="name" value="{{ cls.name if cls }}" required class="form-control"></div>
+    <div class="mb-3"><label class="form-label">Section</label><input name="section" value="{{ cls.section if cls }}" class="form-control"></div>
+    <button class="btn btn-success">Save</button>
+  </form>
+</div>
+{% endblock %}

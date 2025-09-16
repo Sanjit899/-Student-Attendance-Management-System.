@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center">
+  <h3>Students</h3>
+  <a href="{{ url_for('add_student') }}" class="btn btn-primary">Add Student</a>
+</div>
+<table class="table mt-3">
+  <thead><tr><th>#</th><th>Name</th><th>Roll</th><th>Class</th><th>Contact</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for s in students %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ s.name }}</td>
+      <td>{{ s.roll_no }}</td>
+      <td>{{ s.class_name }}</td>
+      <td>{{ s.parent_contact }}</td>
+      <td>
+        <a class="btn btn-sm btn-secondary" href="{{ url_for('edit_student', student_id=s._id) }}">Edit</a>
+        <a class="btn btn-sm btn-danger" href="{{ url_for('delete_student', student_id=s._id) }}" onclick="return confirm('Delete student?')">Delete</a>
+      </td>
+    </tr>
+    {% else %}
+      <tr><td colspan="6">No students yet</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

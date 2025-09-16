@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2 class="mt-2">Dashboard</h2>
+<div class="row">
+  <div class="col-md-3"><div class="card p-3 card-small"><h5>Total Students</h5><h3>{{ stats.total_students }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3 card-small"><h5>Total Classes</h5><h3>{{ stats.total_classes }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3 card-small"><h5>Attendance Today</h5><h3>{{ stats.attendance_today }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3 card-small"><h5>Absences Today</h5><h3>{{ stats.absent_today }}</h3></div></div>
+</div>
+
+<h4 class="mt-4">Recent Absences</h4>
+<table class="table mt-2">
+  <thead><tr><th>Date</th><th>Student</th><th>Class</th></tr></thead>
+  <tbody>
+    {% for a in recent_absences %}
+      <tr><td>{{ a.date }}</td><td>{{ a.student_name }}</td><td>{{ a.class_name }}</td></tr>
+    {% else %}
+      <tr><td colspan="3">No recent absences</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

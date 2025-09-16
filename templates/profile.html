@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="card p-3 mt-3"><h4>Profile</h4>
+<form method="post">
+  <div class="mb-3"><label class="form-label">Name</label><input name="name" value="{{ user.name }}" class="form-control"></div>
+  <div class="mb-3"><label class="form-label">Email</label><input name="email" value="{{ user.email }}" class="form-control" readonly></div>
+  <div class="mb-3"><label class="form-label">Change Password (leave blank to keep)</label><input name="password" type="password" class="form-control"></div>
+  <button class="btn btn-success">Save</button>
+</form>
+</div>
+{% endblock %}

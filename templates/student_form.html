@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Student Form{% endblock %}
+{% block content %}
+<div class="card p-3 mt-3">
+  <h4>{{ 'Edit' if student else 'Add' }} Student</h4>
+  <form method="post" enctype="multipart/form-data">
+    <div class="mb-3"><label class="form-label">Full Name</label><input name="name" value="{{ student.name if student }}" required class="form-control"></div>
+    <div class="mb-3"><label class="form-label">Roll No</label><input name="roll_no" value="{{ student.roll_no if student }}" class="form-control"></div>
+    <div class="mb-3"><label class="form-label">Class</label>
+      <select name="class_id" class="form-control">
+        {% for c in classes %}
+          <option value="{{ c._id }}" {% if student and student.class_id==c._id %}selected{% endif %}>{{ c.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3"><label class="form-label">Parent Contact</label><input name="parent_contact" value="{{ student.parent_contact if student }}" class="form-control"></div>
+    <div class="mb-3"><label class="form-label">Email</label><input name="email" value="{{ student.email if student }}" class="form-control"></div>
+    <div class="mb-3"><label class="form-label">Date of Birth</label><input name="dob" type="date" value="{{ student.dob if student }}" class="form-control"></div>
+    <div class="mb-3"><label class="form-label">Photo (optional)</label><input name="photo" type="file" class="form-control"></div>
+    <button class="btn btn-success">Save</button>
+  </form>
+</div>
+{% endblock %}
